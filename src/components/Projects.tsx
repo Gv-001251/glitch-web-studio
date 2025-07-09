@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ExternalLink, Github } from 'lucide-react';
+import { ProjectTemplatesModal } from './ProjectTemplatesModal';
 
 const projects = [
   {
@@ -29,7 +31,119 @@ const projects = [
   }
 ];
 
+const projectTemplates = {
+  1: [ // Interactive Proposal Platform
+    {
+      id: 1,
+      name: "Business Proposal",
+      description: "Professional business proposal with executive summary and pricing.",
+      category: "Business",
+      gradient: "bg-gradient-to-br from-emerald-500 to-teal-500"
+    },
+    {
+      id: 2,
+      name: "Service Proposal",
+      description: "Service-based proposal template with detailed scope of work.",
+      category: "Services",
+      gradient: "bg-gradient-to-br from-blue-500 to-cyan-500"
+    },
+    {
+      id: 3,
+      name: "Project Proposal",
+      description: "Comprehensive project proposal with timeline and milestones.",
+      category: "Project",
+      gradient: "bg-gradient-to-br from-purple-500 to-pink-500"
+    },
+    {
+      id: 4,
+      name: "Partnership Proposal",
+      description: "Strategic partnership proposal with mutual benefits outline.",
+      category: "Partnership",
+      gradient: "bg-gradient-to-br from-orange-500 to-red-500"
+    }
+  ],
+  2: [ // Annual Report Dashboard
+    {
+      id: 5,
+      name: "Financial Report",
+      description: "Comprehensive financial overview with charts and analytics.",
+      category: "Finance",
+      gradient: "bg-gradient-to-br from-green-500 to-emerald-500"
+    },
+    {
+      id: 6,
+      name: "Performance Report",
+      description: "Key performance indicators and metrics dashboard.",
+      category: "Analytics",
+      gradient: "bg-gradient-to-br from-blue-500 to-indigo-500"
+    },
+    {
+      id: 7,
+      name: "Sustainability Report",
+      description: "Environmental and social impact assessment report.",
+      category: "ESG",
+      gradient: "bg-gradient-to-br from-lime-500 to-green-500"
+    },
+    {
+      id: 8,
+      name: "Executive Summary",
+      description: "High-level overview for stakeholders and board members.",
+      category: "Executive",
+      gradient: "bg-gradient-to-br from-purple-500 to-violet-500"
+    },
+    {
+      id: 9,
+      name: "Market Analysis",
+      description: "Detailed market trends and competitive analysis report.",
+      category: "Market",
+      gradient: "bg-gradient-to-br from-cyan-500 to-blue-500"
+    }
+  ],
+  3: [ // Pitch Deck Creator
+    {
+      id: 10,
+      name: "Startup Pitch",
+      description: "Essential startup pitch deck for investor presentations.",
+      category: "Startup",
+      gradient: "bg-gradient-to-br from-pink-500 to-rose-500"
+    },
+    {
+      id: 11,
+      name: "Product Launch",
+      description: "Product launch presentation with market positioning.",
+      category: "Product",
+      gradient: "bg-gradient-to-br from-indigo-500 to-purple-500"
+    },
+    {
+      id: 12,
+      name: "Investment Deck",
+      description: "Professional investment pitch with financial projections.",
+      category: "Investment",
+      gradient: "bg-gradient-to-br from-amber-500 to-orange-500"
+    },
+    {
+      id: 13,
+      name: "Sales Presentation",
+      description: "Compelling sales presentation for client meetings.",
+      category: "Sales",
+      gradient: "bg-gradient-to-br from-teal-500 to-cyan-500"
+    }
+  ]
+};
+
 export const Projects = () => {
+  const [selectedProject, setSelectedProject] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleViewProject = (projectId: number) => {
+    setSelectedProject(projectId);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProject(null);
+  };
   return (
     <section id="projects" className="py-24 bg-background">
       <div className="container mx-auto px-6">
@@ -89,7 +203,11 @@ export const Projects = () => {
                   ))}
                 </div>
 
-                <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <Button 
+                  variant="outline" 
+                  className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                  onClick={() => handleViewProject(project.id)}
+                >
                   View Project
                 </Button>
               </div>
@@ -103,6 +221,16 @@ export const Projects = () => {
           </Button>
         </div>
       </div>
+
+      {/* Project Templates Modal */}
+      {selectedProject && (
+        <ProjectTemplatesModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          projectTitle={projects.find(p => p.id === selectedProject)?.title || ''}
+          templates={projectTemplates[selectedProject as keyof typeof projectTemplates] || []}
+        />
+      )}
     </section>
   );
 };
