@@ -54,10 +54,10 @@ export const Hero = () => {
               </Button>
               
               <Button 
-                variant="outline"
+                variant="secondary"
                 size="lg"
                 onClick={() => scrollToSection('templates')}
-                className="border-2 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm text-lg px-8 py-6 rounded-2xl group transition-all duration-300"
+                className="bg-white/20 border-2 border-white text-white hover:bg-white hover:text-primary backdrop-blur-sm text-lg px-8 py-6 rounded-2xl group transition-all duration-300"
               >
                 <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
                 Explore Templates
